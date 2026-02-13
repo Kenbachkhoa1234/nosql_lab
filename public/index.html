@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Login</title>
+</head>
+<body>
+    <h2>Shop Login</h2>
+
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username"><br><br>
+        <input type="text" id="password" placeholder="Password"><br><br>
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById("loginForm").onsubmit = async function(e) {
+            e.preventDefault();
+
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            try {
+                password = JSON.parse(password);
+            } catch (e) {}
+
+            const res = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                document.getElementById("result").innerText = "Login success";
+                if (data.role === "admin") {
+                    window.location = "/admin.html";
+                }
+            } else {
+                document.getElementById("result").innerText = "Login failed";
+            }
+        };
+    </script>
+</body>
+</html>
