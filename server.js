@@ -16,23 +16,24 @@ let db;
 MongoClient.connect(url)
   .then(client => {
     db = client.db(dbName);
+	if(db)
     console.log('Connected to MongoDB');
-
-    return db.collection('users').deleteMany({});
+	else throw new Error('Failed to connect to MongoDB');
   })
-  .then(() => {
-    return db.collection('users').insertMany([
-      { username: 'admin', password: 'admin123', role: 'admin' },
-      { username: 'user', password: '123456', role: 'user' }
-    ]);
-  })
-  .then(() => console.log('Sample users created'))
   .catch(err => console.log(err));
 
 
 // LOGIN (CÓ LỖI NoSQL Injection)
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  console.log("BODY:", req.body);
+  console.log("TYPE USERNAME:", typeof req.body.username);
+  console.log("TYPE PASSWORD:", typeof req.body.password);
+
+  const { username } = req.body;
+  const { password } = req.body;
+
+   // const username = String(req.body.username);
+   // const password = String(req.body.password);
 
   db.collection('users').findOne({
     username: username,
