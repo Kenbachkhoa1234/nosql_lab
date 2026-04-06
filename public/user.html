@@ -103,6 +103,13 @@
 </head>
 <body>
 
+<script>
+    if (localStorage.getItem("role") !== "user") {
+        alert("Unauthorized! Redirecting to login...");
+        window.location = "/";
+    }
+</script>
+
 <header>
     <h2>MyShop - User</h2>
     <a href="/" class="logout">Logout</a>

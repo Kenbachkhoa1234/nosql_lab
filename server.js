@@ -29,11 +29,13 @@ app.post('/login', (req, res) => {
   console.log("TYPE USERNAME:", typeof req.body.username);
   console.log("TYPE PASSWORD:", typeof req.body.password);
 
-  const { username } = req.body;
-  const { password } = req.body;
-
-   // const username = String(req.body.username);
-   // const password = String(req.body.password);
+  // VULNERABLE MODE: lỗ hổng
+  //const { username } = req.body;
+  //const { password } = req.body;
+  // SECURE MODE: an toàn 
+  //const username = String(req.body.username);
+  //const password = String(req.body.password);
+  
 
   db.collection('users').findOne({
     username: username,
