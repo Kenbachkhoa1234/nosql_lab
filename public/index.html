@@ -176,9 +176,11 @@ document.getElementById("loginForm").onsubmit = async function(e) {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    try {
-        password = JSON.parse(password);
-    } catch (e) {}
+    // VULNERABLE MODE: lỗ hổng
+    //try {
+      //  password = JSON.parse(password);
+    //} catch (e) {}
+    // SECURE MODE: an toàn
 
     const res = await fetch("/login", {
         method: "POST",
@@ -189,19 +191,19 @@ document.getElementById("loginForm").onsubmit = async function(e) {
     const data = await res.json();
 
     if (data.success) {
-    document.getElementById("result").innerText = "Login success";
-    
-    if (data.role === "admin") {
-        window.location = "/admin.html";
-    } else if (data.role === "user") {
-        window.location = "/user.html";
+        document.getElementById("result").innerText = "Login success";
+        localStorage.setItem("role", data.role);
+        
+        if (data.role === "admin") {
+            window.location = "/admin.html";
+        } else if (data.role === "user") {
+            window.location = "/user.html";
+        } else {
+            document.getElementById("result").innerText = "Login success (no redirect)";
+        }
     } else {
-        document.getElementById("result").innerText = "Login success (no redirect)";
+        document.getElementById("result").innerText = "Login failed";
     }
-} 	
-else {
-    document.getElementById("result").innerText = "Login failed";
-}
 };
 </script>
 

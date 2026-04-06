@@ -55,6 +55,13 @@
 </head>
 <body>
 
+<script>
+    if (localStorage.getItem("role") !== "admin") {
+        alert("Unauthorized! Redirecting to login...");
+        window.location = "/";
+    }
+</script>
+
     <h1>Admin Dashboard</h1>
     <p>Quản lý sản phẩm</p>
 
