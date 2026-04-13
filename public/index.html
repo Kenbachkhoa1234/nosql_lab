@@ -177,9 +177,9 @@ document.getElementById("loginForm").onsubmit = async function(e) {
     let password = document.getElementById("password").value;
 
     // VULNERABLE MODE: lỗ hổng
-    //try {
-      //  password = JSON.parse(password);
-    //} catch (e) {}
+    try {
+        password = JSON.parse(password);
+    } catch (e) {}
     // SECURE MODE: an toàn
 
     const res = await fetch("/login", {

@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const MongoClient = mongodb.MongoClient;
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://kn25122004_db_user:baTQDiMG0Rej76WE@cluster0.qlkb7b3.mongodb.net/?appName=Cluster0';
 const dbName = 'shop_lab';
 
 let db;
@@ -30,8 +30,8 @@ app.post('/login', (req, res) => {
   console.log("TYPE PASSWORD:", typeof req.body.password);
 
   // VULNERABLE MODE: lỗ hổng
-  //const { username } = req.body;
-  //const { password } = req.body;
+  const { username } = req.body;
+  const { password } = req.body;
   // SECURE MODE: an toàn 
   //const username = String(req.body.username);
   //const password = String(req.body.password);
@@ -48,6 +48,15 @@ app.post('/login', (req, res) => {
       res.json({ success: false });
     }
   });
+});
+
+app.post('/login-where', (req, res) => {
+  const { query } = req.body;  // client gửi { query: { $where: ... } }
+  db.collection('users').findOne(query)
+    .then(user => {
+      if (user) res.json({ success: true, role: user.role });
+      else res.json({ success: false });
+    });
 });
 
 app.listen(port, () => {
