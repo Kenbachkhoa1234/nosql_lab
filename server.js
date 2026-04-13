@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const MongoClient = mongodb.MongoClient;
-const url = 'mongodb+srv://kn25122004_db_user:baTQDiMG0Rej76WE@cluster0.qlkb7b3.mongodb.net/?appName=Cluster0';
+const url = process.env.MONGODB_URI || 'mongodb+srv://...';
 const dbName = 'shop_lab';
 
 let db;
